@@ -2,7 +2,9 @@ package edu.uoc.epcsd.productcatalog.application.rest;
 
 import edu.uoc.epcsd.productcatalog.application.rest.request.CreateCategoryRequest;
 import edu.uoc.epcsd.productcatalog.application.rest.request.FindCategoriesByCriteria;
+import edu.uoc.epcsd.productcatalog.application.rest.request.FindProductsByCriteria;
 import edu.uoc.epcsd.productcatalog.domain.Category;
+import edu.uoc.epcsd.productcatalog.domain.Product;
 import edu.uoc.epcsd.productcatalog.domain.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -46,7 +48,18 @@ public class CategoryRESTController {
     // TODO: add the code for the missing system operations here: 
     // use the corresponding mapping HTTP request annotation with the parameter: "/search"
     // and call the method public ResponseEntity<List<Category>> findCategoriesByCriteria(@NotNull FindCategoriesByCriteria findCategoriesCriteria) 
-    // which call the corresponding categoryService method 
+    // which call the corresponding categoryService method
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Category> findCategoriesByCriteria(@RequestBody @NotNull FindCategoriesByCriteria findCategoriesCriteria) {
+        log.trace("findCategoriesByCriteria");
+        Category example = Category.builder()
+                .name(findCategoriesCriteria.getName())
+                .description(findCategoriesCriteria.getDescription())
+                .parentId(findCategoriesCriteria.getParentId()).build();
+
+        return categoryService.findCategoriesByExample(example);
+    }
 
     @PostMapping
     public ResponseEntity<Long> createCategory(@RequestBody @NotNull @Valid CreateCategoryRequest createCategoryRequest) {
