@@ -51,7 +51,7 @@ public class ProductRESTController {
     // which call the corresponding findProductsByExample method
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public List<Product> findProductsByCriteria(@RequestBody FindProductsByCriteria findProductsCriteria) {
+    public List<Product> findProductsByCriteria(FindProductsByCriteria findProductsCriteria) {
         log.trace("findProductsByCriteria");
         Product example = Product.builder().name(findProductsCriteria.getName())
                 .categoryId(findProductsCriteria.getCategoryId()).build();
